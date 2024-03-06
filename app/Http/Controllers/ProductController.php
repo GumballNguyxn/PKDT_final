@@ -39,7 +39,7 @@ class ProductController extends Controller
         $products = Product::orderBy('id', 'desc')->skip(($pageIndex - 1) * $perPage)
             ->take($perPage)->get();
         $topRatedProducts = ProductComment::where('rating', 5)
-            ->get();
+        ->get();
         $categories = ProductCategory::all();
         $brands = Brand::all();
         return view('products.index', compact('products', 'categories', 'brands', 'topRatedProducts', 'pageIndex', 'numberOfPage'));

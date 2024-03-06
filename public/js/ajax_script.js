@@ -373,4 +373,31 @@ $(document).ready(function() {
         });
     }
 
+// xu ly thoi gian dem nguoc
+// Tính toán thời gian đếm ngược
+var countDownDate = new Date();
+countDownDate.setDate(countDownDate.getDate() + 2); // Thêm 2 ngày
+countDownDate.setHours(countDownDate.getHours() + 10); // Thêm 10 giờ
+countDownDate.setMinutes(countDownDate.getMinutes() + 34); // Thêm 34 phút
+countDownDate.setSeconds(countDownDate.getSeconds() + 60); // Thêm 60 giây
 
+// Cập nhật thời gian đếm ngược mỗi giây
+var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerHTML = days;
+    document.getElementById("hours").innerHTML = hours;
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "Deal đã kết thúc";
+    }
+}, 1000);

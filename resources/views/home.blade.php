@@ -190,30 +190,29 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="hot-deal">
-							<ul class="hot-deal-countdown">
+							<ul id="countdown" class="hot-deal-countdown">
 								<li>
 									<div>
-										<h3>02</h3>
+										<h3 id="days">02</h3>
 										<span>Ngày</span>
 									</div>
 								</li>
 								<li>
 									<div>
-										<h3>10</h3>
+										<h3 id="hours">10</h3>
 										<span>Giờ</span>
 									</div>
 								</li>
 								<li>
 									<div>
-										<h3>34</h3>
+										<h3 id="minutes">34</h3>
 										<span>Phút</span>
 									</div>
 								</li>
 								<li>
 									<div>
-										<h3>60</h3>
+										<h3 id="seconds">60</h3>
 										<span>Giây</span>
-                                        <!-- cai nay phai sua cho tg dem nguoc -->
 									</div>
 								</li>
 							</ul>
