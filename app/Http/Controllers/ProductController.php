@@ -159,16 +159,32 @@ class ProductController extends Controller
         }
     }
 
-    public function showInAdmin()
+    public function showInAdmin(Request $request)
     {
-        // Lấy 10 sản phẩm đầu tiên, cùng với các thông tin liên quan
-        $products = Product::with('productImage', 'productDetail', 'productComment')
-                            ->take(10)
-                            ->get();
+        $numberOfRecord = Product::count();
+        $perPage = 10; // Hiển thị 10 sản phẩm trên mỗi trang
+        $numberOfPage = $numberOfRecord % $perPage == 0 ?
+            (int) ($numberOfRecord / $perPage) : (int) ($numberOfRecord / $perPage) + 1;
+        $pageIndex = 1;
+        if ($request->has('pageIndex')) {
+            $pageIndex = $request->input('pageIndex');
+        }
+        if ($pageIndex < 1) {
+            $pageIndex = 1;
+        }
+        if ($pageIndex > $numberOfPage) {
+            $pageIndex = $numberOfPage;
+        }
     
-        // Trả về view hiển thị danh sách sản phẩm trong trang admin
-        return view('admin.products.index', compact('products'));
+        $products = Product::with('productImage', 'productDetail', 'productComment')
+                           ->skip(($pageIndex - 1) * $perPage)
+                           ->take($perPage)
+                           ->get();
+    
+        // Trả về view hiển thị danh sách sản phẩm trong trang admin với thông tin phân trang
+        return view('admin.products.index', compact('products', 'pageIndex', 'numberOfPage'));
     }
+    
 
     public function showProductDetail($productId, $productDetailId)
     {

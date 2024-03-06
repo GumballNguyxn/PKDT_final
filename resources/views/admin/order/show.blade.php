@@ -43,7 +43,7 @@
                                                                 <div class="widget-content-wrapper">
                                                                     <div class="widget-content-left mr-3">
                                                                         <div class="widget-content-left">
-                                                                            <img src="{{ $orderDetail->product->productImage->first()?->path ?? 'path_to_placeholder_image' }}" alt="Product Image" style="width: 50px; height: 50px;">
+                                                                        <img src="{{ $orderDetail->product->productImage->first() ? asset('products_img/' . $orderDetail->product->productImage->first()->path) : asset('path_to_placeholder_image') }}" alt="Product Image" style="width: 50px; height: 50px;">
                                                                         </div>  
                                                                     </div>
                                                                     <div class="widget-content-left flex2">
