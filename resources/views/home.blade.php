@@ -149,7 +149,10 @@
 													@endfor
 												</div>
 												<div class="product-btns">
-													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">thêm vào <br> DS yêu thích</span></button>
+												<button class="add-to-wishlist" data-product-id="{{$item->id}}">
+													<i class="fa fa-heart-o"></i>
+													<span class="tooltipp">Thêm vào<br>DS yêu thích</span>
+												</button>
 													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">xem nhanh</span></button>
 												</div>
 											</div>

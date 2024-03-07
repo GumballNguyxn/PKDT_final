@@ -371,6 +371,6 @@ $(document).ready(function() {
                 // Thêm các đối tượng responsive khác nếu cần
             ]
         });
-    }
+}
 
 

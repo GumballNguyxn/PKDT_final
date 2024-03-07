@@ -37,53 +37,59 @@
                     </tr>
                   </thead>
                   <tbody>
-    @php
-    $totalPrice = 0; // Khởi tạo biến tổng tiền
-    @endphp
-    @foreach($cart->items as $item)
-    <tr>
-        <td class="border-0">
-            <div class="p-2">
-                @if($item->product->productImage->isNotEmpty())
-                    <?php $firstImage = $item->product->productImage->first(); ?>
-                    <img src="products_img/{{$firstImage->path }}" alt="{{ $item->product->name }}" width="70" class="img-fluid rounded shadow-sm">
-                @endif
-            </div>
-        </td>
-        <td class="border-0 align-middle"><strong>{{ $item->product->name }}</strong></td>
-        <td class="border-0 align-middle"><strong>{{ number_format($item->price) }}</strong></td>
-        <td class="border-0 align-middle"><strong>{{ $item->quantity }}</strong></td>
-        <td class="border-0 align-middle"><strong>{{  number_format($item->quantity * $item->price) }}</strong></td>
-        <td class="border-0 align-middle">
-            <form action="/carts/{{$item->id}}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Xóa</button>
-            </form>
-        </td>
-    </tr>
-    @php
-    // Tính tổng tiền cho từng sản phẩm và cộng vào tổng tiền
-    $totalPrice += $item->quantity * $item->price;
-    @endphp
-    @endforeach
-</tbody>
-<tfoot>
-<tr>
-    <td colspan="5" class="text-right"><h3><strong>Tổng tiền: {{ number_format($totalPrice) }} VNĐ</strong></h3></td>
-</tr>
-<tr>
-    <td colspan="5" class="text-right">
-        <a href="{{ url('products') }}" class="btn btn-outline-primary btn-lg" style="color: #ffffff; background-color: #add8e6;"> 
-            Tiếp tục mua sắm
-        </a>
-        <a href="{{ url('checkouts') }}" class="btn btn-danger btn-lg" style="background-color: #b20000;">
-            Thanh toán
-        </a>
-    </td>
-</tr>
-</tfoot>
+                    @php
+                    $totalPrice = 0; // Khởi tạo biến tổng tiền
+                    @endphp
+                    @foreach($cart->items as $item)
+                    <tr>
+                        <td class="border-0">
+                            <div class="p-2">
+                                @if($item->product->productImage->isNotEmpty())
+                                    <?php $firstImage = $item->product->productImage->first(); ?>
+                                    <img src="products_img/{{$firstImage->path }}" alt="{{ $item->product->name }}" width="70" class="img-fluid rounded shadow-sm">
+                                @endif
+                            </div>
+                        </td>
+                        <td class="border-0 align-middle">
+                            <strong>
+                                <h4 class="product-name">
+                                    <a href="{{ route('products.show', $item->product->id) }}">{{ $item->product->name }}</a>
+                                </h4>
+                            </strong>
+                        </td>
 
+                        <td class="border-0 align-middle"><strong>{{ number_format($item->price) }}</strong></td>
+                        <td class="border-0 align-middle"><strong>{{ $item->quantity }}</strong></td>
+                        <td class="border-0 align-middle"><strong>{{  number_format($item->quantity * $item->price) }}</strong></td>
+                        <td class="border-0 align-middle">
+                            <form action="/carts/{{$item->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @php
+                    // Tính tổng tiền cho từng sản phẩm và cộng vào tổng tiền
+                    $totalPrice += $item->quantity * $item->price;
+                    @endphp
+                    @endforeach
+                </tbody>
+                  <tfoot>
+                  <tr>
+                      <td colspan="5" class="text-right"><h3><strong>Tổng tiền: {{ number_format($totalPrice) }} VNĐ</strong></h3></td>
+                  </tr>
+                  <tr>
+                      <td colspan="5" class="text-right">
+                          <a href="{{ url('products') }}" class="btn btn-outline-primary btn-lg" style="color: #ffffff; background-color: #add8e6;"> 
+                              Tiếp tục mua sắm
+                          </a>
+                          <a href="{{ url('checkouts') }}" class="btn btn-danger btn-lg" style="background-color: #b20000;">
+                              Thanh toán
+                          </a>
+                      </td>
+                  </tr>
+                  </tfoot>
                 </table>
               </div>
               <!-- End -->

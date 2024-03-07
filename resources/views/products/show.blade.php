@@ -147,10 +147,15 @@
                                     </form>
                                 </div>
                                 <!-- Thêm vào yêu thích và so sánh sản phẩm -->
-                                <ul class="product-btns">
-                                    <li><a href="#"><i class="fa fa-heart-o"></i>Thêm vào yêu thích</a></li>
-                                    <!-- <li><a href="#"><i class="fa fa-exchange"></i>So sánh</a></li> -->
-                                </ul>
+                                <form action="{{ route('favorites.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <button type="submit" class="btn btn-link p-0" style="background-color: transparent; border: none; text-decoration: none; color: black;">
+                                        <i class="fa fa-heart-o"></i> Thêm vào yêu thích
+                                    </button>
+                                </form>
+
+
 
                                 <!-- Danh mục của sản phẩm  -->
                                 <ul class="product-links">
@@ -412,9 +417,22 @@
                                             <!-- Các nút như yêu thích, so sánh, xem nhanh -->
                                         </div>
                                     </div>
-                                    <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
-                                    </div>
+                                    <form action="{{ route('carts.store') }}" method="POST" class="add-to-cart-form">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="price" value="{{ $formattedPrice }}">
+
+                                        <div class="qty-label">
+                                            <div class="input-number">
+                                                <input id="quantityInput"  name="quantity" value="1">
+                                            </div>
+                                        </div>
+                                        @if ($product->quantity > 0)
+                                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+                                        @else
+                                            <button type="button" class="add-to-cart-btn" disabled><i class="fa fa-shopping-cart"></i>Hết hàng</button>
+                                        @endif
+                                    </form>
                                 </div>
                             </div>
                         @endforeach

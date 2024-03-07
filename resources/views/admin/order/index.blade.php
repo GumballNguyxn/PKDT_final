@@ -12,7 +12,7 @@
                                 <div>
                                     <h3>Đơn hàng</h3>
                                     <div class="page-title-subheading">
-                                        Xem, thêm mới, xóa và quản lý.
+                                        Xem, xóa và quản lý.
                                     </div> 
                                 </div>
                             </div>
@@ -47,7 +47,8 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">ID</th>
-                                                <th>Khách hàng / Sản phẩm</th>
+                                                <th>Sản phẩm /Khách Hàng</th>
+                                                <th class="text-center">Số Điện Thoại</th>
                                                 <th class="text-center">Địa chỉ</th>
                                                 <th class="text-center">Tổng giá trị</th>
                                                 <th class="text-center">Trạng thái</th>
@@ -68,7 +69,8 @@
                                                                             $productImage = $firstProduct ? $firstProduct->product->productImage->first() : null;
                                                                         @endphp
 
-                                                                        <img src="{{ $productImage ? $productImage->path : 'path_to_placeholder_image' }}" alt="Product Image" style="width: 50px; height: 50px;">
+                                                                        <img src="{{ $productImage ? asset('products_img/' . $productImage->path) : asset('path_to_placeholder_image') }}" alt="Product Image" style="width: 50px; height: 50px;">
+
                                                                     </div>
                                                                 </div>
                                                                 <div class="widget-content-left flex2">
@@ -94,7 +96,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-
+                                                    <td class="text-center">{{ $order->phone_number }}</td>
                                                     <td class="text-center">{{ $order->address }}</td>
                                                     <td class="text-center">{{ number_format($order->total_price, 0, ',', '.') }} VNĐ</td>
                                                     <td class="text-center">
@@ -104,15 +106,6 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <a href="{{ route('admin.order.show', ['order' => $order->id]) }}" class="btn btn-hover-shine btn-outline-primary border-0 btn-sm">Chi tiết</a>
-                                                        <a href="#" data-toggle="tooltip" title="Edit"
-                                                            data-placement="bottom" class="btn btn-outline-warning border-0 btn-sm">
-                                                            <span class="btn-icon-wrapper opacity-8">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                                                </svg>
-                                                            </span>
-                                                        </a>
                                                         <form class="d-inline" action="#" method="post">
                                                             @csrf
                                                             @method('DELETE')
