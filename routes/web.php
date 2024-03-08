@@ -14,7 +14,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminOrderController;
-use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\ProductFavoriteController;
+
 
 
 Auth::routes();
@@ -43,9 +44,11 @@ Route::resource('products', ProductController::class);
 Route::get('/admin/products/{productId}/{productDetailId}/edit', [ProductController::class, 'editProduct'])->name('admin.products.edit');
 Route::put('/products/{productId}/{productDetailId}', [ProductController::class, 'updateProduct'])->name('admin.products.update');
 Route::put('/admin/products/{productId}/updateImage/{productImageId}', [ProductController::class, 'updateImage'])->name('admin.products.updateImage');
-
 Route::get('/admin/products', [ProductController::class, 'showInAdmin'])->name('admin.products.index');
 Route::get('/admin/products/{productId}/{productDetailId}', [ProductController::class, 'showProductDetail'])->name('admin.products.showDetail');
+
+//Router danh sách yêu thích
+Route::resource('favorites', ProductFavoriteController::class);
 
 
 
@@ -63,12 +66,14 @@ Route::post('products/{id}/comments', [ProductCommentController::class, 'store']
 Route::get('productAjax', [AjaxController::class, 'getProducts']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-    Route::resource('users',UserController::class);
-    // Router giỏ hàng
-    Route::resource('carts', CartController::class);
-    Route::get('/profile/{user}', [UserController::class, 'profile'])->name('profile');
-    Route::put('/profile/{user}', [UserController::class, 'update'])->name('update-profile');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::resource('users',UserController::class);
+// Router giỏ hàng
+Route::resource('carts', CartController::class);
+
+//profile
+Route::get('/profile/{user}', [UserController::class, 'profile'])->name('profile');
+Route::put('/profile/{user}', [UserController::class, 'update'])->name('update-profile');
 
 });
 Route::resource('checkouts', CheckoutController::class);

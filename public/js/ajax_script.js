@@ -349,7 +349,7 @@ $(document).ready(function() {
                 // Thêm các đối tượng responsive khác nếu cần
             ]
         });
-    }
+}
 
 function addCart(){
     $('.add-to-cart-form').on('submit', function(e) {

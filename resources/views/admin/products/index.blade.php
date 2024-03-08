@@ -167,6 +167,18 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="d-block card-footer">
+                        <!-- Phân trang -->
+                        <div class="d-flex justify-content-center align-items-center my-2">
+                            <a class="btn btn-light" href="{{ route('admin.products.index', ['pageIndex' => max($pageIndex - 1, 1)]) }}"><<</a>
+                            @for($i = 1; $i <= $numberOfPage; $i++)
+                                <a class="btn {{ $i == $pageIndex ? 'btn-secondary' : 'btn-light' }} ms-2" href="{{ route('admin.products.index', ['pageIndex' => $i]) }}">{{ $i }}</a>
+                            @endfor
+                            <a class="btn btn-light ms-2" href="{{ route('admin.products.index', ['pageIndex' => min($pageIndex + 1, $numberOfPage)]) }}">>></a>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
