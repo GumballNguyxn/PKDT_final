@@ -184,6 +184,8 @@ function getProduct() {
         data: data,
         success: function (data) {
             $('#storess').html(data);
+            addCart();
+
         },
         error: function (err) {
             console.log(err);
@@ -208,6 +210,8 @@ function start(){
             data: data,
             success: function (data) {
                 $('#storess').html(data);
+                addCart();
+
             },
             error: function (err) {
                 console.log(err);
@@ -225,6 +229,8 @@ function start(){
             data: data,
             success: function (data) {
                 $('#storess').html(data);
+                addCart();
+
             },
             error: function (err) {
                 console.log(err);
@@ -248,6 +254,8 @@ function phantrang(){
         data: data,
         success: function (data) {
             $('#storess').html(data);
+            addCart();
+
         },
         error: function (err) {
             console.log(err);
@@ -256,39 +264,7 @@ function phantrang(){
 }
 
 $(document).ready(function() {
-    $('.add-to-cart-form').on('submit', function(e) {
-        e.preventDefault(); // Ngăn chặn việc gửi form một cách thông thường
-        var formData = $(this).serialize(); // Lấy dữ liệu từ form
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: formData,
-            success: function (response) {
-                // Hiển thị toast thành công bằng SweetAlert
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sản phẩm đã đươc thêm vào giỏ hàng',
-                    text: response.message,
-                    toast: true,
-                    position: 'top-end', // Hiển thị ở góc trên cùng bên phải
-                    timer: 2000, // Thời gian tự động đóng (miliseconds)
-                    showConfirmButton: false, // Ẩn nút xác nhận
-                });
-            },
-            error: function (xhr, status, error) {
-                // Hiển thị toast lỗi bằng SweetAlert
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi!',
-                    text: xhr.responseJSON.message,
-                    toast: true,
-                    position: 'top-end', // Hiển thị ở góc trên cùng bên phải
-                    timer: 2000, // Thời gian tự động đóng (miliseconds)
-                    showConfirmButton: false, // Ẩn nút xác nhận
-                });
-            }
-        });
-    });
+    addCart();
 });
 
 $(document).ready(function() {
@@ -308,8 +284,9 @@ $(document).ready(function() {
             success: function(data) {
                 // Xử lý dữ liệu nhận được từ server
                 $('#mot').html(data);
-
+                addCart();
                 initSlickSlider('.products-slick');
+                
 
                 // Hiển thị sản phẩm mới tại đây
             },
@@ -340,6 +317,7 @@ $(document).ready(function() {
                 $('#mot').html(data.outputdf);
                 $('#hai').html(data.output);
                 initSlickSlider('.products-slick');
+                addCart();
 
 
 
@@ -373,4 +351,38 @@ $(document).ready(function() {
         });
 }
 
-
+function addCart(){
+    $('.add-to-cart-form').on('submit', function(e) {
+        e.preventDefault(); // Ngăn chặn việc gửi form một cách thông thường
+        var formData = $(this).serialize(); // Lấy dữ liệu từ form
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            success: function (response) {
+                // Hiển thị toast thành công bằng SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sản phẩm đã đươc thêm vào giỏ hàng',
+                    text: response.message,
+                    toast: true,
+                    position: 'top-end', // Hiển thị ở góc trên cùng bên phải
+                    timer: 2000, // Thời gian tự động đóng (miliseconds)
+                    showConfirmButton: false, // Ẩn nút xác nhận
+                });
+            },
+            error: function (xhr, status, error) {
+                // Hiển thị toast lỗi bằng SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: xhr.responseJSON.message,
+                    toast: true,
+                    position: 'top-end', // Hiển thị ở góc trên cùng bên phải
+                    timer: 2000, // Thời gian tự động đóng (miliseconds)
+                    showConfirmButton: false, // Ẩn nút xác nhận
+                });
+            }
+        });
+    });
+}

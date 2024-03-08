@@ -140,7 +140,7 @@
                                 @enderror
                         </div>
                         <div class="text-left" style="margin: 2%; margin-left:25%; margin-right:25%;">
-                            <label for="exampleInputEmail1" class="form-label">Email hoặc SĐT</label>
+                            <label for="exampleInputEmail1" class="form-label">Email</label>
                             <input id="exampleInputEmail" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email">
                                 @error('email')
                                     <span class="invalid-feedback" role="alert" style="color: red;">

@@ -17,6 +17,7 @@ use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\ProductFavoriteController;
 
 
+
 Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');

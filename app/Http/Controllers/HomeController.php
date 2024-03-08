@@ -118,7 +118,14 @@ class HomeController extends Controller
                 </div>
             </div>
             <div class="add-to-cart">
-                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
+            <form action="'.route('carts.store') .'" method="POST" class="add-to-cart-form">
+            '. csrf_field() .'
+                <input type="hidden" name="product_id" value="'.$item->id .'">
+                <input type="hidden" name="price" value="'.$formattedPrice.'  ">
+                <input type="hidden" name="quantity" value="1"> <!-- Số lượng mặc định -->
+                
+                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+        </form>
             </div>
         </div>' ;
         }
@@ -196,7 +203,14 @@ class HomeController extends Controller
                 </div>
             </div>
             <div class="add-to-cart">
-                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
+            <form action="'.route('carts.store') .'" method="POST" class="add-to-cart-form">
+            '. csrf_field() .'
+                <input type="hidden" name="product_id" value="'.$item->id .'">
+                <input type="hidden" name="price" value="'.$formattedPrice.'  ">
+                <input type="hidden" name="quantity" value="1"> <!-- Số lượng mặc định -->
+                
+                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+        </form>
             </div>
         </div>' ;
         }
@@ -252,7 +266,14 @@ $outputdf ='';
                 </div>
             </div>
             <div class="add-to-cart">
-                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
+            <form action="'.route('carts.store') .'" method="POST" class="add-to-cart-form">
+            '. csrf_field() .'
+                <input type="hidden" name="product_id" value="'.$item->id .'">
+                <input type="hidden" name="price" value="'.$formattedPrice.'  ">
+                <input type="hidden" name="quantity" value="1"> <!-- Số lượng mặc định -->
+                
+                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+            </form>
             </div>
         </div>' ;
         }

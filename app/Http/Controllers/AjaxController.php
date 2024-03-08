@@ -72,7 +72,6 @@ class AjaxController extends Controller
                         ->get();
             } else {
                 if ($array_cate_id[0] != "" && $array_brand_id[0] != "") {
-                    echo "cả 2 có";
                     $numberOfRecord = Product::whereIn('product_category_id', $array_cate_id)
                         ->WhereIn('brand_id', $array_brand_id)
                         ->whereHas('productDetail', function ($query) use ($min, $max) {
