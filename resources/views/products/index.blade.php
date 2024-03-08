@@ -31,12 +31,12 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="#">TRANG CHỦ</a></li>
-                <li><a href="{{ route('products.index') }}" >SẢN PHẨM</a></li>
-                <li><a href="" data-key="op lung">ỐP LƯNG</a></li>
-                <li><a href="" data-key="tai Nghe">TAI NGHE</a></li>
-                <li><a href="" data-key="sac">DÂY SẠC - CỦ SẠC</a></li>
-                <li><a href="" data-key="sac du phong">SẠC DỰ PHÒNG</a></li>
+                <li class="{{ Request::is('home|/') ? 'active' : '' }}"><a href="/">TRANG CHỦ</a></li>
+                <li class="{{ Request::is('products') ? 'active' : '' }}"><a href="{{ route('products.index') }}" >SẢN PHẨM</a></li>
+                <li class="{{ Request::is('products?keyword=op%20lung') ? 'active' : '' }}"><a href="" data-key="op lung">ỐP LƯNG</a></li>
+                <li class="{{ Request::is('products?keyword=tai%20Nghe*') ? 'active' : '' }}"><a href="" data-key="tai Nghe">TAI NGHE</a></li>
+                <li class="{{ Request::is('products?keyword=sac*') ? 'active' : '' }}"><a href="" data-key="sac">DÂY SẠC - CỦ SẠC</a></li>
+                <li class="{{ Request::is('products?keyword=sac%20du%20phong*') ? 'active' : '' }}"><a href="" data-key="sac du phong">SẠC DỰ PHÒNG</a></li>
             </ul>
             <!-- /NAV -->
         </div>

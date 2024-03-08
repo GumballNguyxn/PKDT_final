@@ -34,7 +34,7 @@ class LoginController extends Controller
         $previousUrl = $request->input('previous');
 
         if ($user->isAdmin()) {
-            return redirect()->route('users.index');
+            return redirect()->route('admin');
         }
         
         // Nếu tồn tại URL của trang trước đó, chuyển hướng đến đó

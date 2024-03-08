@@ -154,14 +154,14 @@
 												</div>
 											</div>
 											<div class="add-to-cart">
-												<form action="'. route('carts.store') .'" method="POST" class="add-to-cart-form">
-													'. csrf_field() .'
+												<form action="{{route('carts.store') }}" method="POST" class="add-to-cart-form">
+													@csrf
 														<input type="hidden" name="product_id" value="{{$item->id }}">
 														<input type="hidden" name="price" value="{{$formattedPrice}}  ">
 														<input type="hidden" name="quantity" value="1"> <!-- Số lượng mặc định -->
 														
 														<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-													</form>
+												</form>
 											</div>
 										</div>
                                         @endforeach
@@ -306,14 +306,14 @@
 												</div>
 											</div>
 											<div class="add-to-cart">
-												<form action="'. route('carts.store') .'" method="POST" class="add-to-cart-form">
-													'. csrf_field() .'
-														<input type="hidden" name="product_id" value="{{$item->id}}  ">
+												<form action="{{route('carts.store') }}" method="POST" class="add-to-cart-form">
+													@csrf
+														<input type="hidden" name="product_id" value="{{$item->id }}">
 														<input type="hidden" name="price" value="{{$formattedPrice}}  ">
 														<input type="hidden" name="quantity" value="1"> <!-- Số lượng mặc định -->
 														
 														<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-													</form>
+												</form>
 											</div>
 										</div>
                                         @endforeach
@@ -459,43 +459,5 @@
 			<!-- /container -->
 		</div>
 		<!-- /SECTION -->
-
-		<!-- NEWSLETTER -->
-		<div id="newsletter" class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<div class="newsletter">
-							<p>Đăng ký để nhận những <strong>THÔNG BÁO MỚI NHẤT</strong> của chúng tôi!</p>
-							<form>
-								<input class="input" type="email" placeholder="Email">
-								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Đăng ký</button>
-							</form>
-							<ul class="newsletter-follow">
-								<li>
-									<a href="#"><i class="fa fa-facebook"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-twitter"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-instagram"></i></a>
-								</li>
-								<li>
-									<a href="#"><i class="fa fa-pinterest"></i></a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /NEWSLETTER -->
-
-		<!-- FOOTER -->
 
 @endsection
