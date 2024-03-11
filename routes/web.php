@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController ;
 use App\Http\Controllers\AjaxController ;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductCommentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -43,6 +43,7 @@ Route::delete('admin/category/{category}', [CategoryController::class, 'destroy'
 Route::resource('products', ProductController::class);
 Route::get('/admin/products/{productId}/{productDetailId}/edit', [ProductController::class, 'editProduct'])->name('admin.products.edit');
 Route::put('/products/{productId}/{productDetailId}', [ProductController::class, 'updateProduct'])->name('admin.products.update');
+Route::delete('/products/{productId}/{productDetailId}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 Route::put('/admin/products/{productId}/updateImage/{productImageId}', [ProductController::class, 'updateImage'])->name('admin.products.updateImage');
 Route::get('/admin/products', [ProductController::class, 'showInAdmin'])->name('admin.products.index');
 Route::get('/admin/products/{productId}/{productDetailId}', [ProductController::class, 'showProductDetail'])->name('admin.products.showDetail');

@@ -37,7 +37,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        <form>
+                        <form action="{{ route('admin.products.index') }}" method="GET" >
                             <div class="input-group">
                                 <input type="search" name="search" id="search" placeholder="Tìm kiếm" class="form-control">
                                 <span class="input-group-append">
@@ -149,7 +149,7 @@
                                                 </span>
                                             </a>
 
-                                            <form class="d-inline" action="{{ route('products.destroy', $product->id) }}" method="post">
+                                            <form class="d-inline" action="{{ route('admin.products.destroy', ['productId' => $product->id, 'productDetailId' => $detail->id]) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-hover-shine btn-outline-danger border-0 btn-sm" type="submit" data-toggle="tooltip" title="Delete" data-placement="bottom" onclick="return confirm('Bạn có muốn xóa bản ghi này?')">

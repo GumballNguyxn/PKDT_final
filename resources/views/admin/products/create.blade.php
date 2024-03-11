@@ -32,7 +32,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            
+                                
                                 <div class="form-group">
                                     <label for="name">Tên sản phẩm</label>
                                     <input required="" name="name" id="name" placeholder="Name" type="text" class="form-control" value="">
@@ -40,8 +40,8 @@
 
                                 <div class="form-group">
                                     <label for="product_image">Ảnh sản phẩm</label>
-                                    <input type="file" class="form-control-file" id="product_image" name="product_image" required>
-                                    <small id="productImagesHelp" class="form-text text-muted">Chọn ảnh sản phẩm </small>
+                                    <input type="file" class="form-control-file" id="product_image" name="product_image[]" multiple required>
+                                    <small id="productImagesHelp" class="form-text text-muted">Chọn nhiều ảnh sản phẩm </small>
                                 </div>
 
                                 <div class="form-group">
@@ -55,18 +55,21 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="color">Màu sắc</label>
-                                    <input type="text" class="form-control" id="color" name="color" required>
+                                    <label for="colors">Màu sắc</label>
+                                    <input type="text" class="form-control" id="colors" name="colors" placeholder="Nhập màu sắc, cách nhau bởi dấu phẩy" required>
+                                    <small id="colorHelp" class="form-text text-muted">Ví dụ: Đỏ, Xanh, Vàng</small>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="price">Giá tiền</label>
                                     <input type="number" class="form-control" id="price" name="price" required>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="quantity">Số lượng</label>
                                     <input type="number" class="form-control" id="quantity" name="quantity" required>
                                 </div>
+
                                 <a href="{{ route('admin.products.index') }}" class="btn btn-outline-warning border-0 btn-sm" style="color: #007bff !important;" data-toggle="tooltip" title="Trở về" data-placement="bottom">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-square" viewBox="0 0 16 16">
                                         <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
@@ -76,6 +79,9 @@
                                 </a>
                                 <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
                             </form>
+
+
+
                             <!--End-Thêm thông tin sản phẩm -->
                         </div>
                     </div>
