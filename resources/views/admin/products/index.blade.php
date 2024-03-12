@@ -1,12 +1,9 @@
 @extends('admin.layouts.app')
 
 @section('main')
-    <!-- Main -->
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+
+
+
     
     <div class="app-main__inner">
         <div class="app-page-title">
@@ -32,6 +29,26 @@
                 </div>
             </div>
         </div>
+        @if(session('success'))
+            <div id="alertSuccess" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <script>
+            // Đảm bảo toàn bộ trang đã được tải trước khi thực thi mã JavaScript
+            document.addEventListener("DOMContentLoaded", function() {
+                // Sử dụng JavaScript để ẩn thông báo sau một khoảng thời gian nhất định
+                setTimeout(function() {
+                    var alertSuccess = document.getElementById('alertSuccess');
+                    if (alertSuccess) {
+                        alertSuccess.style.display = 'none';
+                    }
+                }, 3000); // 3 giây
+            });
+        </script>
+
+
 
         <div class="row">
             <div class="col-md-12">
@@ -39,7 +56,7 @@
                     <div class="card-header">
                         <form action="{{ route('admin.products.index') }}" method="GET" >
                             <div class="input-group">
-                                <input type="search" name="search" id="search" placeholder="Tìm kiếm" class="form-control">
+                            <input type="search" name="search" id="search" placeholder="Tìm kiếm" class="form-control" value="{{ $searchTerm ?? '' }}">
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-danger">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -70,13 +87,17 @@
                             @foreach ($products as $product)
                                 @foreach ($product->productDetail as $key => $detail)
                                     <tr>
-                                        <td class="text-center text-muted">
+                                    <td class="text-center text-muted">
+                                        <div style="white-space: nowrap;">
                                             @if($key == 0)
                                                 {{ $product->id }} - {{ $detail->id }} 
                                             @else
                                                 - {{ $detail->id }} <!-- Hiển thị productDetail Id -->
                                             @endif
-                                        </td>
+                                        </div>
+                                    </td>
+
+
                                         <td>
                                             <div class="widget-content p-0">
                                                 <div class="widget-content-wrapper">

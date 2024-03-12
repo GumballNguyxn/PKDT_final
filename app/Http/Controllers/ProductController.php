@@ -189,10 +189,16 @@ class ProductController extends Controller
         // Xử lý tìm kiếm
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
-            // Lọc sản phẩm theo ID hoặc tên sản phẩm
+            // Lọc sản phẩm theo ID, tên sản phẩm, hãng hoặc danh mục
             $query->where(function ($query) use ($searchTerm) {
                 $query->where('id', 'like', "%{$searchTerm}%")
-                      ->orWhere('name', 'like', "%{$searchTerm}%");
+                      ->orWhere('name', 'like', "%{$searchTerm}%")
+                      ->orWhereHas('productCategory', function ($query) use ($searchTerm) {
+                          $query->where('name', 'like', "%{$searchTerm}%");
+                      })
+                      ->orWhereHas('productBrand', function ($query) use ($searchTerm) {
+                          $query->where('name', 'like', "%{$searchTerm}%");
+                      });
             });
         }
     
@@ -200,27 +206,23 @@ class ProductController extends Controller
         $perPage = 10; // Hiển thị 10 sản phẩm trên mỗi trang
         $numberOfPage = $numberOfRecord % $perPage == 0 ?
             (int) ($numberOfRecord / $perPage) : (int) ($numberOfRecord / $perPage) + 1;
-        $pageIndex = 1;
-        if ($request->has('pageIndex')) {
-            $pageIndex = $request->input('pageIndex');
-        }
-        if ($pageIndex < 1) {
-            $pageIndex = 1;
-        }
-        if ($pageIndex > $numberOfPage) {
-            $pageIndex = $numberOfPage;
-        }
+        $pageIndex = $request->input('pageIndex', 1); // Sử dụng hàm helper input để lấy giá trị, nếu không có giá trị thì mặc định là 1
+    
+        // Đảm bảo trang hiện tại không vượt quá số trang có thể hiển thị
+        $pageIndex = max(min($pageIndex, $numberOfPage), 1);
     
         $products = $query->skip(($pageIndex - 1) * $perPage)
                           ->take($perPage)
                           ->get();
     
-        // Trả về view hiển thị danh sách sản phẩm trong trang admin với thông tin phân trang
-        return view('admin.products.index', compact('products', 'pageIndex', 'numberOfPage'));
-    }
-    
-    
+        // Trả về view hiển thị danh sách sản phẩm trong trang admin với thông tin phân trang và kết quả tìm kiếm (nếu có)
+        if ($request->has('search')) {
+            return view('admin.products.index', compact('products', 'pageIndex', 'numberOfPage', 'searchTerm'));
+        } else {
+            return view('admin.products.index', compact('products', 'pageIndex', 'numberOfPage'));
+        }
 
+    }
     
 
     public function showProductDetail($productId, $productDetailId)
