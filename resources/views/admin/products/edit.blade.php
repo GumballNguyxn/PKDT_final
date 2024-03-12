@@ -92,10 +92,11 @@
                         <!-- Input cho ảnh mới -->
                         <div class="form-group">
                             <label for="newImage">Chọn ảnh mới</label>
-                            <input type="file" class="form-control-file" id="newImage" name="newImage[]" multiple>
+                            <input type="file" class="form-control-file" id="newImage" name="newImages[]" multiple>
                         </div>
                         <button type="submit" class="btn btn-primary">Cập nhật ảnh</button>
                     </form>
+
                     <!-- Kết thúc form chỉnh sửa -->
                     <div class="text-center">
                             <a href="{{ route('admin.products.index') }}" class="btn btn-outline-warning border-0 btn-sm" style="color: #007bff !important;" data-toggle="tooltip" title="Trở về" data-placement="bottom">

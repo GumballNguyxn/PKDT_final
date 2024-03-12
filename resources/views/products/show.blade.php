@@ -38,6 +38,38 @@
             </div>
         </div>
     </div>
+    <div>
+        @if(session('success'))
+            <div id="alertSuccess" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div id="alertError" class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <script>
+            // Ensure the entire page has loaded before executing JavaScript code
+            document.addEventListener("DOMContentLoaded", function() {
+                // Use JavaScript to hide the alerts after a certain period of time
+                setTimeout(function() {
+                    var alertSuccess = document.getElementById('alertSuccess');
+                    if (alertSuccess) {
+                        alertSuccess.style.display = 'none';
+                    }
+
+                    var alertError = document.getElementById('alertError');
+                    if (alertError) {
+                        alertError.style.display = 'none';
+                    }
+                }, 3000); // 2 seconds
+            });
+        </script>
+    </div>
+
     <!-- /BREADCRUMB -->
     <!-- SECTION -->
 		<div class="section">
@@ -47,6 +79,7 @@
 				<div class="row">
                     <!-- Product main img -->
                     <div class="col-md-5 col-md-push-2">
+
                         <div id="product-main-img">
                             @foreach ($product->productImage as $image)
                                 <div class="product-preview">

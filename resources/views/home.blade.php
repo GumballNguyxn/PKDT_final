@@ -114,7 +114,11 @@
                                         @foreach ($products as $item)
                                         <div class="product">
 											<div class="product-img">
-												<img src="products_img/{{ $item->productImage->get(0)->path }}" alt="">
+												@if($item->productImage->count() > 0)
+													<img src="{{ asset('products_img/' . $item->productImage->first()->path) }}" alt="{{ $item->name }}">
+												@else
+													<img src="placeholder.jpg" alt="{{ $item->name }}">
+												@endif
 												<div class="product-label">
 													<span class="sale">-30%</span>
 													<span class="new">NEW</span>
@@ -149,11 +153,16 @@
 													@endfor
 												</div>
 												<div class="product-btns">
-												<button class="add-to-wishlist" data-product-id="{{$item->id}}">
-													<i class="fa fa-heart-o"></i>
-													<span class="tooltipp">Thêm vào<br>DS yêu thích</span>
-												</button>
-													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">xem nhanh</span></button>
+													<button class="add-to-wishlist" data-product-id="{{$item->id}}">
+														<i class="fa fa-heart-o"></i>
+														<span class="tooltipp">Thêm vào<br>DS yêu thích</span>
+													</button>
+													<button class="quick-view">
+														<a href="{{route('products.show',  $item->id)}}">
+															<i class="fa fa-eye"></i>
+															<span class="tooltipp">Xem nhanh</span>
+														</a>
+													</button>
 												</div>
 											</div>
 											<div class="add-to-cart">
@@ -269,7 +278,11 @@
 										@foreach ($productsbc as $item)
                                         <div class="product">
 											<div class="product-img">
-												<img src="products_img/{{ $item->productImage->get(0)->path }}" alt="">
+												@if($item->productImage->count() > 0)
+													<img src="{{ asset('products_img/' . $item->productImage->first()->path) }}" alt="{{ $item->name }}">
+												@else
+													<img src="placeholder.jpg" alt="{{ $item->name }}">
+												@endif
 												<div class="product-label">
 													<span class="sale">-30%</span>
 													<span class="new">NEW</span>
@@ -363,7 +376,11 @@
     
     <div class="product-widget">
         <div class="product-img">
-            <img src="products_img/{{ $item->productImage->get(0)->path }}" alt="">
+			@if($item->productImage->count() > 0)
+				<img src="{{ asset('products_img/' . $item->productImage->first()->path) }}" alt="{{ $item->name }}">
+			@else
+				<img src="placeholder.jpg" alt="{{ $item->name }}">
+			@endif
         </div>
         <div class="product-body">
             <p class="product-category">{{ $item->productCategory->name }}</p>
@@ -398,7 +415,11 @@
 								@foreach ($products3 as $item)
                                 <div class="product-widget">
 									<div class="product-img">
-										<img src="products_img/{{ $item->productImage->get(0)->path }}" alt="">
+										@if($item->productImage->count() > 0)
+											<img src="{{ asset('products_img/' . $item->productImage->first()->path) }}" alt="{{ $item->name }}">
+										@else
+											<img src="placeholder.jpg" alt="{{ $item->name }}">
+										@endif
 									</div>
 									<div class="product-body">
 										<p class="product-category">{{ $item->productCategory->name }}</p>
@@ -435,7 +456,11 @@
 								@foreach ($products5 as $item)
                                 <div class="product-widget">
 									<div class="product-img">
-										<img src="products_img/{{ $item->productImage->get(0)->path }}" alt="">
+										@if($item->productImage->count() > 0)
+											<img src="{{ asset('products_img/' . $item->productImage->first()->path) }}" alt="{{ $item->name }}">
+										@else
+											<img src="placeholder.jpg" alt="{{ $item->name }}">
+										@endif
 									</div>
 									<div class="product-body">
 										<p class="product-category">{{ $item->productCategory->name }}</p>

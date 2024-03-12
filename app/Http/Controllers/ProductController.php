@@ -10,6 +10,7 @@ use App\Models\Brand;
 use App\Models\ProductDetail;
 use App\Models\ProductFavorite;
 use App\Models\ProductImage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -164,23 +165,52 @@ class ProductController extends Controller
     public function destroy($productId, $productDetailId)
     {
         try {
+            // Tìm chi tiết sản phẩm cần xóa
             $productDetail = ProductDetail::where('product_id', $productId)->findOrFail($productDetailId);
+            $productId = $productDetail->product_id;
+    
+            // Kiểm tra xem sản phẩm có được liên kết với bất kỳ bản ghi đơn hàng nào không
+            if ($productDetail->product && $productDetail->product->orderDetails()->exists()) {
+                // Kiểm tra xem có cần xóa tất cả ảnh không
+                $deleteAllImages = true;
+                // Đặt số lượng của tất cả ProductDetail thành 0
+                $productDetail->update(['quantity' => 0]);
+            } else {
+                $deleteAllImages = false;
+            }
+            // Xóa ảnh của sản phẩm nếu không còn chi tiết sản phẩm nào và số lượng sản phẩm là 0
+            $remainingDetails = ProductDetail::where('product_id', $productId)->count();
+            if ($remainingDetails == 0 && $deleteAllImages) {
+                $productImages = ProductImage::where('product_id', $productId)->get();
+                $imageToKeep = $productImages->first(); // Lấy ảnh đầu tiên để giữ lại
+                foreach ($productImages as $image) {
+                    if ($image !== $imageToKeep) { // Kiểm tra nếu ảnh không phải là ảnh cần giữ lại
+                        // Xóa hình ảnh từ thư mục
+                        $imagePath = public_path('products_img/') . $image->path;
+                        if (file_exists($imagePath)) {
+                            unlink($imagePath);
+                        }
+                        // Xóa ảnh từ cơ sở dữ liệu
+                        $image->delete();
+                    }
+                }
+            }
+
+    
+            // Đặt số lượng của sản phẩm và tất cả ProductDetail liên quan thành 0
+            $productDetail->update(['quantity' => 0]);
+            $totalQuantity = ProductDetail::where('product_id', $productId)->sum('quantity');
+            Product::where('id', $productId)->update(['quantity' => $totalQuantity]);
+
+            // Xóa chi tiết sản phẩm
             $productDetail->delete();
     
-            // Nếu muốn xóa sản phẩm khi không còn chi tiết sản phẩm nào liên quan
-            // Ta kiểm tra xem sản phẩm còn chi tiết sản phẩm nào không
-            if (ProductDetail::where('product_id', $productId)->count() == 0) {
-                $product = Product::findOrFail($productId);
-                $product->delete();
-            }
-    
-            return redirect()->route('admin.products.index')->with('success', 'Xóa sản phẩm và chi tiết sản phẩm thành công!');
+            return redirect()->route('admin.products.index')->with('success', 'Xóa chi tiết sản phẩm thành công!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Đã xảy ra lỗi khi xóa sản phẩm: ' . $e->getMessage());
         }
     }
     
-
     public function showInAdmin(Request $request)
     {
         $query = Product::with('productImage', 'productDetail', 'productComment')
@@ -314,32 +344,45 @@ class ProductController extends Controller
 
 
     public function updateImage(Request $request, $productId, $productImageId) {
-        // Kiểm tra xem có tệp được gửi lên không
-        if ($request->hasFile('newImage')) {
-            // Validate request data
-            $validatedData = $request->validate([
-                'newImage' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048', 
-            ]);
+        try {
+            // Kiểm tra xem có tệp được gửi lên không
+            if ($request->hasFile('newImages')) {
+                // Validate request data
+                $validatedData = $request->validate([
+                    'newImages.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048', 
+                ]);
     
-            // Tìm kiếm hình ảnh cần cập nhật
-            $productImage = ProductImage::where('product_id', $productId)
-                ->where('id', $productImageId)
-                ->firstOrFail();
+                // Xóa tất cả các ảnh cũ của sản phẩm
+                $oldImages = ProductImage::where('product_id', $productId)->get();
+                foreach ($oldImages as $oldImage) {
+                    $oldImagePath = public_path('products_img/') . $oldImage->path;
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                    $oldImage->delete();
+                }
     
-            // Di chuyển và lưu hình ảnh mới
-            $imageName = time() . '_' . uniqid() . '.' . $request->file('newImage')->extension();
-            $request->file('newImage')->move(public_path('products_img'), $imageName);
+                // Lưu các tệp ảnh mới được gửi lên và cập nhật cơ sở dữ liệu
+                foreach ($request->file('newImages') as $image) {
+                    $imageName = time() . '_' . uniqid() . '.' . $image->extension();
+                    $image->move(public_path('products_img'), $imageName);
     
-            // Lưu đường dẫn hình ảnh mới vào cơ sở dữ liệu
-            $productImage->update([
-                'path' => $imageName,
-            ]);
+                    // Tạo mới bản ghi hình ảnh
+                    ProductImage::create([
+                        'product_id' => $productId,
+                        'path' => $imageName,
+                    ]);
+                }
     
-            return redirect()->route('admin.products.index')->with('success', 'Cập nhật ảnh sản phẩm thành công!');
-        } else {
-            // Trường hợp không có tệp được gửi lên
-            return redirect()->back()->with('error', 'Vui lòng chọn ít nhất một tệp ảnh.');
+                return redirect()->route('admin.products.index')->with('success', 'Cập nhật ảnh sản phẩm thành công!');
+            } else {
+                // Trường hợp không có tệp được gửi lên
+                return redirect()->back()->with('error', 'Vui lòng chọn ít nhất một tệp ảnh.');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi cập nhật ảnh sản phẩm: ' . $e->getMessage());
         }
     }
+    
 }
 

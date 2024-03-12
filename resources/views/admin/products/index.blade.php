@@ -35,21 +35,30 @@
             </div>
         @endif
 
+        @if(session('error'))
+            <div id="alertError" class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <script>
-            // Đảm bảo toàn bộ trang đã được tải trước khi thực thi mã JavaScript
             document.addEventListener("DOMContentLoaded", function() {
-                // Sử dụng JavaScript để ẩn thông báo sau một khoảng thời gian nhất định
                 setTimeout(function() {
                     var alertSuccess = document.getElementById('alertSuccess');
+                    var alertError = document.getElementById('alertError');
+                    
+                    // Ẩn thông báo thành công sau 2 giây
                     if (alertSuccess) {
                         alertSuccess.style.display = 'none';
                     }
-                }, 3000); // 3 giây
+
+                    // Ẩn thông báo lỗi sau 5 giây
+                    if (alertError) {
+                        alertError.style.display = 'none';
+                    }
+                }, 2000); // 2 giây
             });
         </script>
-
-
-
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
