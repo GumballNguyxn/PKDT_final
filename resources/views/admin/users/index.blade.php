@@ -27,7 +27,37 @@
                 </div>
             </div>
         </div>
+        <!-- Hiển thị thông báo -->
+        @if(session('success'))
+            <div id="alertSuccess" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
+        @if(session('error'))
+            <div id="alertError" class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                setTimeout(function() {
+                    var alertSuccess = document.getElementById('alertSuccess');
+                    var alertError = document.getElementById('alertError');
+                    
+                    // Ẩn thông báo thành công sau 2 giây
+                    if (alertSuccess) {
+                        alertSuccess.style.display = 'none';
+                    }
+
+                    // Ẩn thông báo lỗi sau 5 giây
+                    if (alertError) {
+                        alertError.style.display = 'none';
+                    }
+                }, 2000); // 2 giây
+            });
+        </script>
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">

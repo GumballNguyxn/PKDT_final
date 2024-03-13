@@ -352,9 +352,10 @@ $(document).ready(function() {
 }
 
 function addCart(){
-    $('.add-to-cart-form').on('submit', function(e) {
+    $('.add-to-cart-form').off('submit').on('submit', function(e) {
         e.preventDefault(); // Ngăn chặn việc gửi form một cách thông thường
         var formData = $(this).serialize(); // Lấy dữ liệu từ form
+        console.log(formData);
         $.ajax({
             type: 'POST',
             url: $(this).attr('action'),
