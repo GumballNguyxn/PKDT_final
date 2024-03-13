@@ -56,14 +56,15 @@ class ProductFavoriteController extends Controller
                 return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào danh sách yêu thích.');
             } else {
                 // Nếu sản phẩm đã tồn tại trong danh sách yêu thích, trả về thông báo lỗi
-                return redirect()->back()->with('error', 'Sản phẩm đã tồn tại trong danh sách yêu thích.');
+                return redirect()->back()->with('success', 'Sản phẩm đã tồn tại trong danh sách yêu thích.');
             }
         } else {
             // Redirect hoặc yêu cầu đăng nhập
-            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để thêm sản phẩm vào danh sách yêu thích.');
+            return redirect()->back('login')->with('error', 'Đã xảy ra lỗi khi xóa sản phẩm khỏi danh sách yêu thích:');
         }
     }
     
+
     public function destroy($productId)
     {
         try {
@@ -76,4 +77,6 @@ class ProductFavoriteController extends Controller
             return redirect()->back()->with('error', 'Đã xảy ra lỗi khi xóa sản phẩm khỏi danh sách yêu thích: ' . $e->getMessage());
         }
     }
+    
+
 }

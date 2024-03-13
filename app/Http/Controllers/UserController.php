@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use App\Models\User;
 
 class UserController extends Controller
@@ -55,7 +54,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         User::create($request->all());
-        return redirect()->route('users.index')->with('success','Thêm người dùng thành công thành công!');
+        return redirect()->route('users.index')->with('mes','Thêm thành công!');
     }
 
     /**
@@ -80,32 +79,25 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        try {
-            $validatedData =  $request->validate([
-                'name' => 'required|string|max:255',
-                'phone' => 'required|string|max:20',
-                'address' => 'required|string|max:255',
-                'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra định dạng và kích thước của ảnh
-            ]);
+        $validatedData =  $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra định dạng và kích thước của ảnh
+        ]);
     
-            $imageName = time().'.'.$validatedData['avatar']->extension();  
+        $imageName = time().'.'.$validatedData['avatar']->extension();  
     
-            $validatedData['avatar']->move(public_path('avatars'), $imageName);
+        $validatedData['avatar']->move(public_path('avatars'), $imageName);
     
-            // Lưu thông tin vào cơ sở dữ liệu
-            $user->update([
-                'avatar' => $imageName,
-                'name' => $validatedData['name'],
-                'phone' => $validatedData['phone'],
-                'address' => $validatedData['address'],
-            ]);
-    
-            return redirect()->back()->with('success', 'Thông tin đã được cập nhật thành công!');
-        } catch (ValidationException $e) {
-            return redirect()->back()->withInput()->withErrors($e->errors());
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật thông tin: ' . $e->getMessage());
-        }
+        // Lưu thông tin vào cơ sở dữ liệu
+        $user->update([
+            'avatar' => $imageName,
+            'name' => $validatedData['name'],
+            'phone' => $validatedData['phone'],
+            'address' => $validatedData['address'],
+        ]);
+        return redirect()->back();
     }
 
     /**
@@ -116,7 +108,7 @@ class UserController extends Controller
         $pageIndex = 1;
         if($request->has('pageIndex')) $pageIndex = $request->input('pageIndex');
         $user->delete();
-        return redirect()->back()->with('success', 'Xóa người dùng thành công!');
+        return redirect()->back()->with('mes', 'Xóa thành công!');
     }
 
     public function profile(){

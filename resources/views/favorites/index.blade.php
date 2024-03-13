@@ -10,25 +10,6 @@
               <div class="container text-center my-5">
                   <h2 class="display-4">Danh sách yêu thích</h2>
               </div>
-                <!-- Hiển thị thông báo -->
-                @if(session('success'))
-                    <div id="alertSuccess" class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                <script>
-                    // Ensure the entire page has loaded before executing JavaScript code
-                    document.addEventListener("DOMContentLoaded", function() {
-                        // Use JavaScript to hide the alert after a certain period of time
-                        setTimeout(function() {
-                            var alertSuccess = document.getElementById('alertSuccess');
-                            if (alertSuccess) {
-                                alertSuccess.style.display = 'none';
-                            }
-                        }, 3000); // 2 seconds
-                    });
-                </script>
 
               <!-- Shopping cart table -->
               <div class="table-responsive">
