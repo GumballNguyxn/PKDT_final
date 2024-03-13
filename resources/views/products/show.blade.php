@@ -38,38 +38,6 @@
             </div>
         </div>
     </div>
-    <div>
-        @if(session('success'))
-            <div id="alertSuccess" class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div id="alertError" class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <script>
-            // Ensure the entire page has loaded before executing JavaScript code
-            document.addEventListener("DOMContentLoaded", function() {
-                // Use JavaScript to hide the alerts after a certain period of time
-                setTimeout(function() {
-                    var alertSuccess = document.getElementById('alertSuccess');
-                    if (alertSuccess) {
-                        alertSuccess.style.display = 'none';
-                    }
-
-                    var alertError = document.getElementById('alertError');
-                    if (alertError) {
-                        alertError.style.display = 'none';
-                    }
-                }, 3000); // 2 seconds
-            });
-        </script>
-    </div>
-
     <!-- /BREADCRUMB -->
     <!-- SECTION -->
 		<div class="section">
@@ -79,7 +47,6 @@
 				<div class="row">
                     <!-- Product main img -->
                     <div class="col-md-5 col-md-push-2">
-
                         <div id="product-main-img">
                             @foreach ($product->productImage as $image)
                                 <div class="product-preview">
@@ -450,23 +417,22 @@
                                             <!-- Các nút như yêu thích, so sánh, xem nhanh -->
                                         </div>
                                     </div>
-                                    <div class="add-to-cart">
                                     <form action="{{ route('carts.store') }}" method="POST" class="add-to-cart-form">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         <input type="hidden" name="price" value="{{ $formattedPrice }}">
 
+                                        <div class="qty-label">
                                             <div class="input-number">
-                                                <input type="hidden" id="quantityInput" type="number" name="quantity" value="1" >
+                                                <input id="quantityInput"  name="quantity" value="1">
                                             </div>
+                                        </div>
                                         @if ($product->quantity > 0)
                                             <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
                                         @else
                                             <button type="button" class="add-to-cart-btn" disabled><i class="fa fa-shopping-cart"></i>Hết hàng</button>
                                         @endif
                                     </form>
-                                </div>
-
                                 </div>
                             </div>
                         @endforeach
