@@ -77,6 +77,7 @@ Route::get('/profile/{user}', [UserController::class, 'profile'])->name('profile
 Route::put('/profile/{user}', [UserController::class, 'update'])->name('update-profile');
 
 });
+
 Route::resource('checkouts', CheckoutController::class);
 Route::post('/place-order', [CheckoutController::class, 'placeorder'])->name('place-order');
 Route::get('/order-success/{order}', [OrderController::class, 'orderSuccess'])->name('order.success');
