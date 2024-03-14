@@ -13,6 +13,7 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
+
     public function index()
     {
         // Fetch data for charts
@@ -20,6 +21,7 @@ class AdminController extends Controller
         return view('admin.index', [
             'productSalesData' => $productSalesData,
         ]);
+
     }
 
     // Function to get product sales data

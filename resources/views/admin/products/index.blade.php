@@ -1,6 +1,14 @@
 @extends('admin.layouts.app')
 
 @section('main')
+    <!-- Main -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+
     <div class="app-main__inner">
         <div class="app-page-title">
             <div class="page-title-wrapper">
@@ -25,43 +33,14 @@
                 </div>
             </div>
         </div>
-        @if(session('success'))
-            <div id="alertSuccess" class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
 
-        @if(session('error'))
-            <div id="alertError" class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                setTimeout(function() {
-                    var alertSuccess = document.getElementById('alertSuccess');
-                    var alertError = document.getElementById('alertError');
-                    
-                    // Ẩn thông báo thành công sau 2 giây
-                    if (alertSuccess) {
-                        alertSuccess.style.display = 'none';
-                    }
-
-                    // Ẩn thông báo lỗi sau 5 giây
-                    if (alertError) {
-                        alertError.style.display = 'none';
-                    }
-                }, 2000); // 2 giây
-            });
-        </script>
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        <form action="{{ route('admin.products.index') }}" method="GET" >
+                        <form>
                             <div class="input-group">
-                            <input type="search" name="search" id="search" placeholder="Tìm kiếm" class="form-control" value="{{ $searchTerm ?? '' }}">
+                                <input type="search" name="search" id="search" placeholder="Tìm kiếm" class="form-control">
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-danger">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -92,17 +71,13 @@
                             @foreach ($products as $product)
                                 @foreach ($product->productDetail as $key => $detail)
                                     <tr>
-                                    <td class="text-center text-muted">
-                                        <div style="white-space: nowrap;">
+                                        <td class="text-center text-muted">
                                             @if($key == 0)
                                                 {{ $product->id }} - {{ $detail->id }} 
                                             @else
                                                 - {{ $detail->id }} <!-- Hiển thị productDetail Id -->
                                             @endif
-                                        </div>
-                                    </td>
-
-
+                                        </td>
                                         <td>
                                             <div class="widget-content p-0">
                                                 <div class="widget-content-wrapper">
@@ -175,7 +150,7 @@
                                                 </span>
                                             </a>
 
-                                            <form class="d-inline" action="{{ route('admin.products.destroy', ['productId' => $product->id, 'productDetailId' => $detail->id]) }}" method="post">
+                                            <form class="d-inline" action="{{ route('products.destroy', $product->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-hover-shine btn-outline-danger border-0 btn-sm" type="submit" data-toggle="tooltip" title="Delete" data-placement="bottom" onclick="return confirm('Bạn có muốn xóa bản ghi này?')">

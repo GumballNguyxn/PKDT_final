@@ -94,7 +94,7 @@
                         <!-- Input cho ảnh mới -->
                         <div class="form-group">
                             <label for="newImage">Chọn ảnh mới</label>
-                            <input type="file" class="form-control-file" id="newImage" name="newImage[]" multiple>
+                            <input type="file" class="form-control-file" id="newImage" name="newImage">
                         </div>
                         <button type="submit" class="btn btn-primary">Cập nhật ảnh</button>
                     </form>
